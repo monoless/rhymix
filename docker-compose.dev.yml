@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+    rhymix:
+
+services:
+    rhymix-nginx:
+        image: nginx:stable-alpine
+        container_name: rhymix-nginx
+        ports:
+            - "8080:80"
+        volumes:
+            - ./src:/var/www/html
+            - ./conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - rhymix-php
+            - rhymix-mariadb
+        networks:
+            - rhymix
+
+    rhymix-mariadb:
+        image: mariadb:latest
+        container_name: rhymix-mariadb
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: rhymix
+            MYSQL_USER: rhymix
+            MYSQL_PASSWORD: rhymix
+            MYSQL_ROOT_PASSWORD: secret
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - mysqldata:/var/lib/mysql
+        networks:
+            - rhymix
+
+    rhymix-php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: rhymix-php
+        ports:
+            - "9009:9009"
+        volumes:
+            - ./src:/var/www/html
+        networks:
+            - rhymix
+
+    rhymix-redis:
+        image: redis
+        container_name: rhymix-redis
+        networks:
+            - rhymix
+
+volumes:
+    mysqldata: {}

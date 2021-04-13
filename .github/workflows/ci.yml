@@ -22,7 +22,7 @@ jobs:
         sudo mysql -uroot -proot -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
 
     - name: PHP Lint
-      run: if find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
+      run: if find . -name "*.php" ! -path "./src/vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
     
     - name: Download codeception (PHP 7.2 and above)
       if: matrix.php >= '7.2'
@@ -37,5 +37,5 @@ jobs:
     
     - name: Build and run codeception
       run: |
-        php codecept.phar build
-        php codecept.phar run --debug --fail-fast
+        php src/codecept.phar build
+        php src/codecept.phar run --debug --fail-fast
