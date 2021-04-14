@@ -1157,7 +1157,7 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModulePath($module)
 	{
-		return sprintf('./modules/%s/', $module);
+		return sprintf('./../modules/%s/', $module);
 	}
 
 	/**
