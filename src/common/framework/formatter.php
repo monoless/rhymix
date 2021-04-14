@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework;
 
+use Rhymix\Framework\Parsers\LessCompiler;
+
 /**
  * The formatter class.
  */
@@ -184,7 +186,7 @@ class Formatter
 		// Compile!
 		try
 		{
-			$less_compiler = new \lessc;
+			$less_compiler = new LessCompiler();
 			$less_compiler->setFormatter($minify ? 'compressed' : 'lessjs');
 			$less_compiler->setImportDir(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
 			if ($variables)
