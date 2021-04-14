@@ -88,11 +88,11 @@ class TemplateHandler
 	 * @param string $tpl_file
 	 * @return void
 	 */
-	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
+	protected function init(string $tpl_path, string $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
 		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
-		if($tpl_path === '/' || !is_dir($tpl_path))
+		if($tpl_path === '/' || !is_dir(\RX_BASEDIR . $tpl_path))
 		{
 			$this->resetState();
 			return;
@@ -130,7 +130,7 @@ class TemplateHandler
 	 * @param string $tpl_file if specified use it as template file's full path
 	 * @return string Returns compiled result in case of success, NULL otherwise
 	 */
-	public function compile($tpl_path, $tpl_filename, $tpl_file = '')
+	public function compile(string $tpl_path, string $tpl_filename, $tpl_file = ''): string
 	{
 		// store the starting time for debug information
 		$start = microtime(true);

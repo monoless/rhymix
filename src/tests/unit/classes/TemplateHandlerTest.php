@@ -511,7 +511,7 @@ class TemplateHandlerWrapper extends \TemplateHandler {
         $this->inst = parent::getInstance();
     }
 
-    public function init($tpl_path, $tpl_filename, $tpl_file = '') {
+    public function init(string $tpl_path, string $tpl_filename, $tpl_file = '') {
         call_user_func(array($this->inst, 'init'), $tpl_path, $tpl_filename, $tpl_file);
     }
 
