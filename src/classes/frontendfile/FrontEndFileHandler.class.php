@@ -16,13 +16,13 @@ class FrontEndFileHandler extends Handler
 	/**
 	 * Directory for minified, compiled, and concatenated CSS/JS assets.
 	 */
-	public static $assetdir = 'files/cache/assets';
+	public static string $assetdir = 'public/assets';
 
 	/**
 	 * Map for css
 	 * @var array
 	 */
-	public $cssMap = array();
+	public array $cssMap = array();
 
 	/**
 	 * Map for Javascript at head
@@ -379,12 +379,12 @@ class FrontEndFileHandler extends Handler
 	 * @param bool $finalize (optional)
 	 * @return array Returns css file list. Array contains file, media, targetie.
 	 */
-	public function getCssFileList($finalize = false)
+	public function getCssFileList($finalize = false): array
 	{
 		$map = &$this->cssMap;
 		$mapIndex = &$this->cssMapIndex;
 		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
-		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'css') !== false;
+		$concat = str_contains(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'css');
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts, and compile LESS/SCSS into CSS.
@@ -448,7 +448,7 @@ class FrontEndFileHandler extends Handler
 			{
 				foreach ($indexedMap as $file)
 				{
-					$url = $file->filePath . '/' . $file->fileName;
+					$url = $this->getAssetPath($file);
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
@@ -623,7 +623,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $path Path to normalize
 	 * @return string Normalized path
 	 */
-	protected function _normalizeFilePath($path)
+	protected function _normalizeFilePath(string $path): string
 	{
 		$path = strval($path);
 		if(!preg_match('!://!', $path) && !preg_match('!^[/.]!', $path))
@@ -667,7 +667,7 @@ class FrontEndFileHandler extends Handler
 	 * @param object $file
 	 * @return void
 	 */
-	protected function _arrangeCssIndex($dirname, $file)
+	protected function _arrangeCssIndex(string $dirname, object $file)
 	{
 		if ($file->index < -100000)
 		{
@@ -683,7 +683,7 @@ class FrontEndFileHandler extends Handler
 		if ($tmp)
 		{
 			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
-			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
+			$file->index += $cssSortList[$tmp] ?? 0;
 		}
 	}
 	
@@ -710,6 +710,19 @@ class FrontEndFileHandler extends Handler
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * @param object $file
+	 * @return string
+	 */
+	protected function getAssetPath(object $file): string {
+		$prefix = RX_BASEDIR . 'public';
+		if (str_starts_with($file->fileFullPath, $prefix)) {
+			return substr($file->fileFullPath, strlen($prefix));
+		}
+
+		return $file->filePath . '/' . $file->fileName;
 	}
 }
 /* End of file FrontEndFileHandler.class.php */

@@ -702,7 +702,7 @@ class HTMLDisplayHandler
 		else
 		{
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
-			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
+			$concat_target_filename = 'public/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
 				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);

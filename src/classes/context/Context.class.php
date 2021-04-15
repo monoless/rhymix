@@ -135,9 +135,9 @@ class Context
 
 	/**
 	 * object oFrontEndFileHandler()
-	 * @var object
+	 * @var ?object
 	 */
-	private static $_oFrontEndFileHandler = null;
+	private static ?object $_oFrontEndFileHandler = null;
 
 	/**
 	 * Plugin blacklist cache
@@ -2254,9 +2254,9 @@ class Context
 	 * Return a list of css files
 	 *
 	 * @param bool $finalize (optional)
-	 * @return array Returns css file list. Array contains file, media, targetie.
+	 * @return array Returns css file list. Array contains file, media, target-ie.
 	 */
-	public static function getCSSFile($finalize = false)
+	public static function getCSSFile($finalize = false): array
 	{
 		return self::$_oFrontEndFileHandler->getCssFileList($finalize);
 	}

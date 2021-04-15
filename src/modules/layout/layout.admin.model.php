@@ -1,5 +1,8 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
+
+use Rhymix\Framework\Exceptions\InvalidRequest;
+
 /**
  * @class  layoutAdminView
  * @author NAVER (developers@xpressengine.com)
@@ -17,13 +20,15 @@ class layoutAdminModel extends layout
 	/**
 	 * get layout setting view.
 	 * @return void
+	 * @throws InvalidRequest
 	 */
-	public function getLayoutAdminSetInfoView()
+	public function getLayoutAdminSetInfoView(): void
 	{
 		$this->setLayoutAdminSetInfoView();
 
 		Context::set('is_sitemap', '1');
 		$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
+		$styles = '';
 		$oTemplate = TemplateHandler::getInstance();
 		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
 
@@ -44,16 +49,11 @@ class layoutAdminModel extends layout
 			}
 			foreach($info->cssList as $css)
 			{
-				$csss .= sprintf('<link rel="stylesheet" href="%s" />', $css);
+				$styles .= sprintf('<link rel="stylesheet" href="%s" />', $css);
 			}
 		}
 
-		$this->add('html', $csss . $script . $html);
-
-		if($isReturn)
-		{
-			return $this->get('html');
-		}
+		$this->add('html', $styles . $script . $html);
 	}
 
 	public function setLayoutAdminSetInfoView()
