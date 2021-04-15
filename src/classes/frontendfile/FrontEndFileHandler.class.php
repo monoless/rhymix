@@ -87,7 +87,7 @@ class FrontEndFileHandler extends Handler
 	 * @param array $args Arguments
 	 * @return void
 	 * */
-	public function loadFile($args)
+	public function loadFile(array $args)
 	{
 		if(!is_array($args))
 		{
@@ -394,7 +394,8 @@ class FrontEndFileHandler extends Handler
 			{
 				foreach ($indexedMap as $file)
 				{
-					$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all');
+					//$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all');
+					$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript;
 					if ($file->fileExtension === 'css')
 					{
 						$this->proc_CSS_JS($file, $minify_this_file);
@@ -479,7 +480,7 @@ class FrontEndFileHandler extends Handler
 	 * @param bool $finalize (optional)
 	 * @return array Returns javascript file list. Array contains file, targetie.
 	 */
-	public function getJsFileList($type = 'head', $finalize = false)
+	public function getJsFileList($type = 'head', $finalize = false): array
 	{
 		if($type == 'head')
 		{
@@ -493,7 +494,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
-		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'js') !== false;
+		$concat = str_contains(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'js');
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts.
@@ -503,7 +504,8 @@ class FrontEndFileHandler extends Handler
 			{
 				foreach ($indexedMap as $file)
 				{
-					if (!$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all'))
+					$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript;
+					if ($minify_this_file)
 					{
 						$this->proc_CSS_JS($file, true);
 					}
@@ -552,7 +554,7 @@ class FrontEndFileHandler extends Handler
 			{
 				foreach ($indexedMap as $file)
 				{
-					$url = $file->filePath . '/' . $file->fileName;
+					$url = $this->getAssetPath($file);
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));

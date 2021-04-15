@@ -199,7 +199,7 @@ class HTMLDisplayHandler
 	 * @param string $output compiled template string
 	 * @return void
 	 */
-	function prepareToPrint(&$output)
+	function prepareToPrint(string &$output)
 	{
 		if(Context::getResponseMethod() != 'HTML')
 		{
@@ -379,10 +379,15 @@ class HTMLDisplayHandler
 	 * add html link code extracted from html body to Context, which will be
 	 * printed inside <header></header> later.
 	 * @param array $matches
-	 * @return void
 	 */
-	function _moveLinkToHeader($matches)
+	protected function _moveLinkToHeader(array $matches)
 	{
+		if (preg_match('/href=(?:["\'])([^"\']+\.css)/s', $matches[1], $css))
+		{
+			Context::loadFile(array($css[1], '', '', null), true);
+			return;
+		}
+		
 		Context::addHtmlHeader($matches[0]);
 	}
 
@@ -392,7 +397,7 @@ class HTMLDisplayHandler
 	 * @param array $matches
 	 * @return void
 	 */
-	function _moveMetaToHeader($matches)
+	protected function _moveMetaToHeader(array $matches)
 	{
 		Context::addHtmlHeader($matches[0]);
 	}
@@ -693,15 +698,15 @@ class HTMLDisplayHandler
 		
 		if(config('view.minify_scripts') === 'none')
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
+			Context::loadFile(array('./public/common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
 			foreach($original_file_list as $filename)
 			{
-				Context::loadFile(array('./common/js/' . $filename, 'head', '', -1700000000), true);
+				Context::loadFile(array('./public/common/js/' . $filename, 'head', '', -1700000000), true);
 			}
 		}
 		else
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
+			Context::loadFile(array('./public/common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
 			$concat_target_filename = 'public/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
@@ -718,7 +723,7 @@ class HTMLDisplayHandler
 				}
 			}
 			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
-				return \RX_BASEDIR . 'common/js/' . $str;
+				return \RX_BASEDIR . 'public/common/js/' . $str;
 			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
 			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
 		}

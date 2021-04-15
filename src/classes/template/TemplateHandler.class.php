@@ -873,7 +873,7 @@ class TemplateHandler
 							else
 							{
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
-								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s']);", [
+								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s'], true);", [
 									$attr['target'] ?? '', $attr['type'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
 								]);
 							}

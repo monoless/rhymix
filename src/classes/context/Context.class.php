@@ -119,9 +119,9 @@ class Context
 
 	/**
 	 * Singleton instance
-	 * @var object
+	 * @var ?Context
 	 */
-	private static $_instance = null;
+	private static ?Context $_instance = null;
 	
 	/**
 	 * Flag to prevent calling init() twice
@@ -135,9 +135,9 @@ class Context
 
 	/**
 	 * object oFrontEndFileHandler()
-	 * @var ?object
+	 * @var ?FrontEndFileHandler
 	 */
-	private static ?object $_oFrontEndFileHandler = null;
+	private static ?FrontEndFileHandler $_oFrontEndFileHandler = null;
 
 	/**
 	 * Plugin blacklist cache
@@ -183,9 +183,9 @@ class Context
 	/**
 	 * Obtain a singleton instance of Context.
 	 *
-	 * @return object Instance
+	 * @return Context Instance
 	 */
-	public static function getInstance()
+	public static function getInstance(): Context
 	{
 		if(self::$_instance === null)
 		{
@@ -2374,11 +2374,10 @@ class Context
 
 	/**
 	 * Add html code before </head>
-	 *
-	 * @param string $header add html code before </head>.
-	 * @return void
+	 * 
+	 * @param string|null $header add html code before </head>.
 	 */
-	public static function addHtmlHeader($header)
+	public static function addHtmlHeader(string|null $header)
 	{
 		self::$_instance->html_header .= (self::$_instance->html_header ? "\n" : '') . $header;
 	}
@@ -2393,7 +2392,7 @@ class Context
 	 *
 	 * @return string Added html code before </head>
 	 */
-	public static function getHtmlHeader()
+	public static function getHtmlHeader(): string
 	{
 		return self::$_instance->html_header;
 	}
