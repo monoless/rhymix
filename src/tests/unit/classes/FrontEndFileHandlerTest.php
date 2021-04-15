@@ -55,7 +55,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testCssLess()
 	{
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
+		$handler->loadFile(array('./public/common/css/rhymix.less'));
 		$result = $handler->getCssFileList(true);
 		$this->assertRegexp('/\.rhymix\.less\.css\?\d+$/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
@@ -212,14 +212,14 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		FrontEndFileHandler::$minify = 'all';
 		
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
+		$handler->loadFile(array('./public/common/css/rhymix.less'));
 		$result = $handler->getCssFileList(true);
 		$this->assertRegexp('/\.rhymix\.less\.min\.css\b/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
 		$this->assertEmpty($result[0]['targetie']);
 		
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/js/common.js', 'head'));
+		$handler->loadFile(array('./public/common/js/common.js', 'head'));
 		$result = $handler->getJsFileList('head', true);
 		$this->assertRegexp('/minified\/common\.js\.common\.min\.js\?\d+$/', $result[0]['file']);
 		$this->assertEmpty($result[0]['targetie']);
@@ -232,10 +232,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		FrontEndFileHandler::$concat = 'css';
 		
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
-		$handler->loadFile(array('./common/css/bootstrap-responsive.css'));
+		$handler->loadFile(array('./public/common/css/rhymix.less'));
+		$handler->loadFile(array('./public/common/css/bootstrap-responsive.css'));
 		$handler->loadFile(array('http://external.host/style.css'));
-		$handler->loadFile(array('./common/css/bootstrap.css', null, 'IE'));
+		$handler->loadFile(array('.//public/common/css/bootstrap.css', null, 'IE'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.source1.css'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.source2.css'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.target1.css'));

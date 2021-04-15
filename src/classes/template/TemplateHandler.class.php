@@ -891,7 +891,7 @@ class TemplateHandler
 							{
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
 								$metavars = isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '') : '';
-								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s', %s]);", [
+								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s', %s], true);", [
 									$attr['target'] ?? '', $attr['media'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
 									isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '[]') : '[]',
 								]);

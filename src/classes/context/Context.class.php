@@ -2068,7 +2068,7 @@ class Context
 	 * 		$args[3]: index
 	 *
 	 */
-	public static function loadFile($args)
+	public static function loadFile(array|string $args)
 	{
 		if (!is_array($args))
 		{
