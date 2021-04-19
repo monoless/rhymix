@@ -162,7 +162,7 @@ class FrontEndFileHandler extends Handler
 	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $vars = array(), $isCommon = false)
+	protected function getFileInfo(string $fileName, $targetIe = '', $media = 'all', $vars = array(), $isCommon = false): stdClass
 	{
 		$pathInfo = pathinfo($fileName);
 		
@@ -176,7 +176,9 @@ class FrontEndFileHandler extends Handler
 		{
 			$file->fileExtension = substr($file->fileExtension, 0, $pos);
 		}
-		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'] ?? '', $matches))
+		
+		$realDir = dirname(realpath(RX_BASEDIR . $pathInfo['dirname']));
+		if (str_starts_with($realDir, RX_BASEDIR . 'public') && preg_match('/^(.+)\.min$/', $pathInfo['filename'] ?? '', $matches))
 		{
 			$file->fileNameNoExt = $matches[1];
 			$file->isMinified = true;
@@ -186,12 +188,12 @@ class FrontEndFileHandler extends Handler
 			$file->fileNameNoExt = $pathInfo['filename'] ?? '';
 			$file->isMinified = false;
 		}
-		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
+		$file->isExternalURL = (bool)preg_match('@^(https?:)?//@i', $file->filePath);
 		if ($file->isExternalURL && !$file->fileExtension)
 		{
 			$file->fileExtension = preg_match('/[\.\/](css|js)\b/', $fileName, $matches) ? $matches[1] : null;
 		}
-		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
+		$file->isCachedScript = !$file->isExternalURL && str_contains($file->filePath, 'files/cache/');
 		$file->isCommon = $isCommon;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname'] ?? '');
@@ -209,7 +211,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		// Do not minify common JS plugins
-		if (strpos($file->filePath, 'common/js/plugins') !== false)
+		if (str_contains($file->filePath, 'common/js/plugins'))
 		{
 			$file->isMinified = true;
 		}

@@ -844,7 +844,6 @@ class TemplateHandler
 						}
 
 						$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
-
 						$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
 					}
 
@@ -1002,7 +1001,7 @@ class TemplateHandler
 	 * @param string $path
 	 * @return string
 	 */
-	private function _getRelativeDir($path)
+	private function _getRelativeDir(string $path): string
 	{
 		$_path = $path;
 
