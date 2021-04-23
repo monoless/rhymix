@@ -11,8 +11,6 @@
 class menuAdminModel extends menu
 {
 	private $menuSrlWithinHome = 0;
-	
-	private bool $debug = false;
 
 	/**
 	 * Initialization
@@ -339,7 +337,6 @@ class menuAdminModel extends menu
 	 */
 	function getMenuAdminInstalledMenuType()
 	{
-		$this->debug = true;
 		$oModuleModel = getModel('module');
 		$oAutoinstallModel = getModel('autoinstall');
 		$this->add('menu_types', $this->getModuleListInSitemap());
