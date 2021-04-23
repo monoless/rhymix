@@ -10,7 +10,7 @@ class Lang
 	/**
 	 * Instances are stored here.
 	 */
-	protected static $_instances = array();
+	protected static array $_instances = array();
 	
 	/**
 	 * Configuration.
@@ -24,9 +24,9 @@ class Lang
 	 * This method returns the cached instance of a language.
 	 * 
 	 * @param string $language
-	 * @return object
+	 * @return \Rhymix\Framework\Lang
 	 */
-	public static function getInstance($language)
+	public static function getInstance(string $language): Lang
 	{
 		if ($language === 'jp')
 		{
@@ -66,7 +66,7 @@ class Lang
 	 * @param string $name
 	 * @return bool
 	 */
-	public function loadPlugin($name)
+	public function loadPlugin(string $name): bool
 	{
 		if (isset($this->_loaded_plugins[$name]))
 		{
@@ -89,6 +89,8 @@ class Lang
 		{
 			$this->loadDirectory(\RX_BASEDIR . "addons/$name/lang", $name);
 		}
+		
+		return false;
 	}
 	
 	/**
@@ -98,7 +100,7 @@ class Lang
 	 * @param string $plugin_name
 	 * @return bool
 	 */
-	public function loadDirectory($dir, $plugin_name = null)
+	public function loadDirectory(string $dir, $plugin_name = null): bool
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');

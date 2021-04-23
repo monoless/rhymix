@@ -795,9 +795,9 @@ class Context
 	 * Load language file according to language type
 	 *
 	 * @param string $path Path of the language file
-	 * @return void
+	 * @return bool
 	 */
-	public static function loadLang($path)
+	public static function loadLang(string $path): bool
 	{
 		if (preg_match('@/(modules|addons|plugins|widgets)/([a-zA-Z0-9_-]+)/lang/?(?:lang\.xml)?$@', str_replace('\\', '/', $path), $matches))
 		{

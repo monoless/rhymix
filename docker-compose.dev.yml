@@ -42,7 +42,7 @@ services:
             dockerfile: Dockerfile
         container_name: rhymix-php
         ports:
-            - "9009:9009"
+            - "9001:9001"
         volumes:
             - ./src:/var/www/html
         networks:

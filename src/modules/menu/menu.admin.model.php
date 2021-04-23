@@ -11,6 +11,8 @@
 class menuAdminModel extends menu
 {
 	private $menuSrlWithinHome = 0;
+	
+	private bool $debug = false;
 
 	/**
 	 * Initialization
@@ -337,9 +339,10 @@ class menuAdminModel extends menu
 	 */
 	function getMenuAdminInstalledMenuType()
 	{
+		$this->debug = true;
 		$oModuleModel = getModel('module');
 		$oAutoinstallModel = getModel('autoinstall');
-		$this->add('menu_types', $this->getModuleListInSitemap(0));
+		$this->add('menu_types', $this->getModuleListInSitemap());
 
 		$_allModules = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
 		sort($_allModules);
@@ -403,7 +406,7 @@ class menuAdminModel extends menu
 	 * this menu showing with trigger
 	 * @return array
 	 */
-	function getModuleListInSitemap()
+	function getModuleListInSitemap(): array
 	{
 		$oModuleModel = getModel('module');
 		$moduleList = array('page');
