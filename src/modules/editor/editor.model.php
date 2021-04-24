@@ -670,11 +670,11 @@ class editorModel extends editor
 	/**
 	 * @brief Read xml information of the component
 	 */
-	public static function getComponentXmlInfo($component)
+	public static function getComponentXmlInfo($component): bool|\stdClass
 	{
 		// Get xml file path of the requested components
 		$component = preg_replace('/[^a-zA-Z0-9-_]/', '', $component);
-		$component_path = sprintf('%s/components/%s/', './modules/editor', $component);
+		$component_path = sprintf('%s/components/%s/', RX_BASEDIR . 'modules/editor', $component);
 
 		$xml_file = sprintf('%sinfo.xml', $component_path);
 		$xml_mtime = filemtime($xml_file);
@@ -683,11 +683,7 @@ class editorModel extends editor
 		// Get from cache
 		$cache_key = sprintf('editor:component:%s:%s:%d', $component, $lang_type, $xml_mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
-		if ($info !== null && FALSE)
-		{
-			return $info;
-		}
-		
+
 		// Parse XML file
 		$info = Rhymix\Framework\Parsers\EditorComponentParser::loadXML($xml_file, $component, $lang_type);
 		

@@ -1168,7 +1168,7 @@ class ModuleHandler extends Handler
 	 * @return ModuleObject module instance (if failed it returns null)
 	 * @remarks if there exists a module instance created before, returns it.
 	 * */
-	public static function getModuleInstance($module, $type = 'view', $kind = '')
+	public static function getModuleInstance(string $module, $type = 'view', $kind = ''): ModuleObject
 	{
 		$type = strtolower($type);
 		if (!isset(self::$_types[$type]))

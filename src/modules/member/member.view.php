@@ -811,7 +811,7 @@ class memberView extends member
 
 		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
-		Context::loadLang('modules/document/lang/');
+		Context::loadLang('./modules/document/lang/');
 		Context::set('spammer_info', MemberModel::getMemberInfoByMemberSrl($member_srl));
 		Context::set('module_srl', $module_srl);
 

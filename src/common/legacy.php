@@ -67,9 +67,9 @@ function getAdminView($module_name)
  * Create a model instance of the module
  *
  * @param string $module_name The module name to get a model instance
- * @return mixed Module model instance
+ * @return ModuleObject Module model instance
  */
-function getModel($module_name)
+function getModel(string $module_name): ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'model');
 }

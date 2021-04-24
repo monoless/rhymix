@@ -346,7 +346,7 @@ class menuAdminModel extends menu
 
 		$allModules = array();
 
-		Context::loadLang('modules/page/lang');
+		Context::loadLang('./modules/page/lang');
 
 		$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
@@ -449,7 +449,7 @@ class menuAdminModel extends menu
 		$moduleList = array_unique(array_merge($haveDirectory, $haveInstance));
 
 		$moduleInfoList = array();
-		Context::loadLang('modules/page/lang');
+		Context::loadLang('./modules/page/lang');
 		if(is_array($moduleList))
 		{
 			foreach($moduleList as $value)
