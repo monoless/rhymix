@@ -54,7 +54,7 @@ function pointLevelIconTrans($matches, $addon_info)
 		$text = $matches[5];
 
 		// Get a path where level icon is
-		$level_icon = sprintf('%smodules/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
+		$level_icon = sprintf('%scommon/point/icons/%s/%d.gif', Context::getRequestUri(), $config->level_icon, $level);
 
 		// Get per to go to the next level if not a top level
 		$per = NULL;
